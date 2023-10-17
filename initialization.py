@@ -1,10 +1,13 @@
 import random
+# Cities Generator
+def generate_number_list(n):
+    return list(range(n))
 
 # 1. Random Initialization
-def random_initialization(num_individuals, cities):
+def random_initialization(num_individuals, n):
     population = []
     for _ in range(num_individuals):
-        individual = cities.copy()
+        individual = generate_number_list(n)
         random.shuffle(individual)
         population.append(individual)
     return population
