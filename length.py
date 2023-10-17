@@ -1,3 +1,6 @@
+import random
+
+
 def tsp_length(matrix, permutation):
     """
     Calculate the length of the cycle for a given permutation in TSP.
@@ -46,6 +49,38 @@ def solve_tsp(matrix):
             best_permutation = perm
     
     return best_permutation, best_length
+
+
+def tsp_fitness(route, distance_matrix):
+    """Compute the total distance of the route."""
+    return sum(distance_matrix[route[i]][route[i+1]] for i in range(len(route)-1)) + distance_matrix[route[-1]][route[0]]
+
+def lambda_plus_mu_elimination(population, lambda_offspring, mu_parents, distance_matrix, crossover, mutation, mutation_prob):
+    """Apply λ+μ elimination strategy."""
+    offspring = []
+    
+    # Generate λ offspring
+    for _ in range(lambda_offspring):
+        parent1, parent2 = random.choices(population, k=2)  # Randomly select two parents
+        child = crossover(parent1, parent2)                 # Apply crossover
+        
+        # Apply mutation with a given probability
+        if random.random() < mutation_prob:
+            child = mutation(child)
+            
+        offspring.append(child)
+
+    # Combine parents and offspring
+    combined_population = population + offspring
+    
+    # Sort by fitness
+    sorted_population = sorted(combined_population, key=lambda x: tsp_fitness(x, distance_matrix))
+    
+    # Select top μ individuals
+    next_generation = sorted_population[:mu_parents]
+    
+    return next_generation
+
 
 # Example usage
 if __name__ == "__main__":
