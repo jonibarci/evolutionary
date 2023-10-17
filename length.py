@@ -1,6 +1,5 @@
 import random
 
-
 def tsp_length(matrix, permutation):
     """
     Calculate the length of the cycle for a given permutation in TSP.
@@ -80,6 +79,14 @@ def lambda_plus_mu_elimination(population, lambda_offspring, mu_parents, distanc
     next_generation = sorted_population[:mu_parents]
     
     return next_generation
+
+def k_tournament_selection(population, k, tournament_size):
+    selected = []
+    for i in range(k):
+        tournament = random.sample(population, tournament_size)
+        winner = max(tournament, key=lambda x: x.fitness)
+        selected.append(winner)
+    return selected
 
 
 # Example usage
