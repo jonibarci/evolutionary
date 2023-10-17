@@ -46,3 +46,10 @@ def solve_tsp(matrix):
             best_permutation = perm
     
     return best_permutation, best_length
+
+# Example usage
+if __name__ == "__main__":
+    matrix = [[0, 1, 2, 3], [1, 0, 4, 5], [2, 4, 0, 6], [3, 5, 6, 0]]
+    best_permutation, best_length = solve_tsp(matrix)
+    print("Best permutation:", best_permutation)
+    print("Best length:", best_length)
