@@ -60,14 +60,29 @@ def lambda_plus_mu_elimination(population, lambda_offspring, mu_parents, distanc
     
     # Generate λ offspring
     for _ in range(lambda_offspring):
-        parent1, parent2 = random.choices(population, k=2)  # Randomly select two parents
-        child = crossover(parent1, parent2)                 # Apply crossover
-        
+        length1 = float('inf')
+        length2 = float('inf')
+        while ((length1 == float('inf')) | (length2 == float('inf'))):
+            parent1, parent2 = random.choices(population, k=2)  # Randomly select two parents
+            child1, child2 = crossover(parent1, parent2)                 # Apply crossover
+            print(child1)
+            print(child2)
+            length1 = tsp_length(distance_matrix, child1)
+            length2 = tsp_length(distance_matrix, child2)
+            print(length1)
+            print(length2)
+
         # Apply mutation with a given probability
         if random.random() < mutation_prob:
-            child = mutation(child)
+            child1 = mutation(child1)
             
-        offspring.append(child)
+        offspring.append(child1)
+
+        # Apply mutation with a given probability
+        if random.random() < mutation_prob:
+            child2 = mutation(child2)
+            
+        offspring.append(child2)
 
     # Combine parents and offspring
     combined_population = population + offspring

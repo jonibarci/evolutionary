@@ -32,6 +32,12 @@ def order_crossover(parent1, parent2):
     return child1, child2
 
 # 2. Partially Mapped Crossover (PMX)
+def resolve_mapping(city, mapping):
+    """Recursively resolve the city mapping until a city not in the mapping is found."""
+    while city in mapping:
+        city = mapping[city]
+    return city
+
 def pmx(parent1, parent2):
     size = len(parent1)
     start, end = sorted(random.sample(range(size), 2))
@@ -44,19 +50,13 @@ def pmx(parent1, parent2):
     child2[start:end] = parent2[start:end]
 
     # Create mapping for cities in the segments
-    mapping = {}
-    for i in range(start, end):
-        mapping[parent1[i]] = parent2[i]
+    mapping1 = dict(zip(parent1[start:end], parent2[start:end]))
+    mapping2 = dict(zip(parent2[start:end], parent1[start:end]))
 
     # Resolve conflicts using the mapping
     for i in list(range(start)) + list(range(end, size)):
-        while parent2[i] in child1:
-            parent2[i] = mapping[parent2[i]]
-        child1[i] = parent2[i]
-
-        while parent1[i] in child2:
-            parent1[i] = mapping[parent1[i]]
-        child2[i] = parent1[i]
+        child1[i] = resolve_mapping(parent2[i], mapping1)
+        child2[i] = resolve_mapping(parent1[i], mapping2)
 
     return child1, child2
 
