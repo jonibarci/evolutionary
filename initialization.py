@@ -77,5 +77,3 @@ def random_greedy_initialization(num_individuals, distance_matrix):
         population.append(individual)
     
     return population
-
-#test
