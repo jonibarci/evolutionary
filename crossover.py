@@ -1,4 +1,5 @@
 import random
+#TODO - Check that we don't create children with infinty length.
 
 # 1. Order Crossover (OX)
 def order_crossover(parent1, parent2):
