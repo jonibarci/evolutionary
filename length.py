@@ -65,12 +65,8 @@ def lambda_plus_mu_elimination(population, lambda_offspring, mu_parents, distanc
         while ((length1 == float('inf')) | (length2 == float('inf'))):
             parent1, parent2 = random.choices(population, k=2)  # Randomly select two parents
             child1, child2 = crossover(parent1, parent2)                 # Apply crossover
-            print(child1)
-            print(child2)
             length1 = tsp_length(distance_matrix, child1)
             length2 = tsp_length(distance_matrix, child2)
-            print(length1)
-            print(length2)
 
         # Apply mutation with a given probability
         if random.random() < mutation_prob:
@@ -102,11 +98,3 @@ def k_tournament_selection(population, k, tournament_size):
         winner = max(tournament, key=lambda x: x.fitness)
         selected.append(winner)
     return selected
-
-
-# Example usage
-if __name__ == "__main__":
-    matrix = [[0, 1, 2, 3], [1, 0, 4, 5], [2, 4, 0, 6], [3, 5, 6, 0]]
-    best_permutation, best_length = solve_tsp(matrix)
-    print("Best permutation:", best_permutation)
-    print("Best length:", best_length)

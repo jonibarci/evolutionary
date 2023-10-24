@@ -20,16 +20,7 @@ class r0123456:
 
 		permutationSize = len(distanceMatrix[0])
 		populationSize = 100
-		iterations = 50
-
-		# parent1 = np.array([1,2,0,3,4,5,8,6,7])
-		# parent2 = np.array([8,6,7,1,2,5,0,4,3])
-		# population = [parent1, parent2]
-
-		# child1, child2 = pmx(parent1, parent2)
-		# print(child1)
-		# print(child2)
-
+		iterations = 1000
 
 		# Your code here.
 		yourConvergenceTestsHere = True
