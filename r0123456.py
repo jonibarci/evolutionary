@@ -3,7 +3,7 @@ import numpy as np
 from length import tsp_length, lambda_plus_mu_elimination
 from crossover import pmx
 from mutation import swap_mutation
-from initialization import random_initialization
+from initialization import random_initialization, nearest_neighbor_initialization, greedy_initialization, random_greedy_initialization
 
 # Modify the class name to match your student number.
 class r0123456:
@@ -29,10 +29,15 @@ class r0123456:
 			bestObjective = 0.0
 			bestSolution = np.array([1,2,3,4,5])
 			population = random_initialization(populationSize, permutationSize, distanceMatrix)
+			# population = nearest_neighbor_initialization(populationSize, distanceMatrix)
+			# population = greedy_initialization(populationSize, distanceMatrix)
+			# population = random_greedy_initialization(populationSize, distanceMatrix)
+
 
 			# Your code here.
 			for i in range (iterations):
-				population = lambda_plus_mu_elimination(population=population, lambda_offspring=15, mu_parents=populationSize, distance_matrix=distanceMatrix, crossover=pmx, mutation=swap_mutation, mutation_prob=0.25)
+				print(f"iterations {i}")
+				population = lambda_plus_mu_elimination(population=population, lambda_offspring=15, mu_parents=populationSize, distance_matrix=distanceMatrix, crossover=pmx, mutation=swap_mutation, mutation_prob=0.05)
 
 				permutationScores = []
 				for permutation in population:
@@ -40,7 +45,6 @@ class r0123456:
 
 				meanObjective = sum(permutationScores)/populationSize
 				bestObjective = min(permutationScores)
-				print(population)
 				bestSolution = np.array(population[0])
 
 				# Call the reporter with:
