@@ -1,14 +1,18 @@
 import random
+from length import tsp_length
 # Cities Generator
 def generate_number_list(n):
     return list(range(n))
 
 # 1. Random Initialization
-def random_initialization(num_individuals, n):
+def random_initialization(num_individuals, n, distanceMatrix):
     population = []
     for _ in range(num_individuals):
         individual = generate_number_list(n)
-        random.shuffle(individual)
+        length = float('inf')
+        while(length == float('inf')):
+            random.shuffle(individual)
+            length = tsp_length(distanceMatrix, individual)
         population.append(individual)
     return population
 

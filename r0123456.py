@@ -3,6 +3,7 @@ import numpy as np
 from length import tsp_length, lambda_plus_mu_elimination
 from crossover import pmx
 from mutation import swap_mutation
+from initialization import random_initialization
 
 # Modify the class name to match your student number.
 class r0123456:
@@ -17,15 +18,18 @@ class r0123456:
 		distanceMatrix = np.loadtxt(file, delimiter=",")
 		file.close()
 
-		parent1 = np.array([1,2,0,3,4,5,8,6,7])
-		parent2 = np.array([8,6,7,1,2,5,0,4,3])
-		population = [parent1, parent2]
+		permutationSize = len(distanceMatrix[0])
+		populationSize = 100
+		iterations = 50
+
+		# parent1 = np.array([1,2,0,3,4,5,8,6,7])
+		# parent2 = np.array([8,6,7,1,2,5,0,4,3])
+		# population = [parent1, parent2]
 
 		# child1, child2 = pmx(parent1, parent2)
 		# print(child1)
 		# print(child2)
 
-		lambda_plus_mu_elimination(population=population, lambda_offspring=1, mu_parents=4, distance_matrix=distanceMatrix, crossover=pmx, mutation=swap_mutation, mutation_prob=0.1)
 
 		# Your code here.
 		yourConvergenceTestsHere = True
@@ -33,20 +37,29 @@ class r0123456:
 			meanObjective = 0.0
 			bestObjective = 0.0
 			bestSolution = np.array([1,2,3,4,5])
-
+			population = random_initialization(populationSize, permutationSize, distanceMatrix)
 
 			# Your code here.
-			for i in range (10):
-				break
+			for i in range (iterations):
+				population = lambda_plus_mu_elimination(population=population, lambda_offspring=15, mu_parents=populationSize, distance_matrix=distanceMatrix, crossover=pmx, mutation=swap_mutation, mutation_prob=0.25)
 
-			# Call the reporter with:
-			#  - the mean objective function value of the population
-			#  - the best objective function value of the population
-			#  - a 1D numpy array in the cycle notation containing the best solution 
-			#    with city numbering starting from 0
-			timeLeft = self.reporter.report(meanObjective, bestObjective, bestSolution)
-			if timeLeft < 0:
-				break
+				permutationScores = []
+				for permutation in population:
+					permutationScores.append(tsp_length(distanceMatrix, permutation))
+
+				meanObjective = sum(permutationScores)/populationSize
+				bestObjective = min(permutationScores)
+				print(population)
+				bestSolution = np.array(population[0])
+
+				# Call the reporter with:
+				#  - the mean objective function value of the population
+				#  - the best objective function value of the population
+				#  - a 1D numpy array in the cycle notation containing the best solution 
+				#    with city numbering starting from 0
+				timeLeft = self.reporter.report(meanObjective, bestObjective, bestSolution)
+				if timeLeft < 0:
+					break
 
 			yourConvergenceTestsHere = False
 		# Your code here.
