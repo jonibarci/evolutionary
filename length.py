@@ -70,18 +70,22 @@ def lambda_plus_mu_elimination(population, lambda_offspring, mu_parents, distanc
 
         # Apply mutation with a given probability
         if random.random() < mutation_prob:
-            child1 = mutation(child1)
+            child1 = mutation(child1, distance_matrix)
             
         offspring.append(child1)
 
         # Apply mutation with a given probability
         if random.random() < mutation_prob:
-            child2 = mutation(child2)
+            child2 = mutation(child2, distance_matrix)
             
         offspring.append(child2)
 
     # Combine parents and offspring
     combined_population = population + offspring
+
+    for route in combined_population:
+        if random.random() < mutation_prob:
+            route = mutation(route, distance_matrix)
     
     # Sort by fitness
     sorted_population = sorted(combined_population, key=lambda x: tsp_fitness(x, distance_matrix))

@@ -2,7 +2,7 @@ import Reporter
 import numpy as np
 from length import tsp_length, lambda_plus_mu_elimination
 from crossover import pmx
-from mutation import swap_mutation
+from mutation import mutation_interface
 from initialization import random_initialization, nearest_neighbor_initialization, greedy_initialization, random_greedy_initialization
 
 # Modify the class name to match your student number.
@@ -37,7 +37,7 @@ class r0123456:
 			# Your code here.
 			for i in range (iterations):
 				print(f"iterations {i}")
-				population = lambda_plus_mu_elimination(population=population, lambda_offspring=15, mu_parents=populationSize, distance_matrix=distanceMatrix, crossover=pmx, mutation=swap_mutation, mutation_prob=0.05)
+				population = lambda_plus_mu_elimination(population=population, lambda_offspring=15, mu_parents=populationSize, distance_matrix=distanceMatrix, crossover=pmx, mutation=mutation_interface, mutation_prob=0.2)
 
 				permutationScores = []
 				for permutation in population:
@@ -58,4 +58,5 @@ class r0123456:
 
 			yourConvergenceTestsHere = False
 		# Your code here.
+
 		return 0

@@ -1,5 +1,7 @@
 import random
 
+from length import tsp_length
+
 # 1. Swap Mutation
 def swap_mutation(route):
     mutated_route = route.copy()
@@ -41,3 +43,10 @@ def displacement_mutation(route):
     for idx, city in enumerate(segment):
         mutated_route.insert(insert_position + idx, city)
     return mutated_route
+
+def mutation_interface(route, distanceMatrix):
+    length = float('inf')
+    while(length == float('inf')):
+        individual = inversion_mutation(route)
+        length = tsp_length(distanceMatrix, individual)
+    return individual
