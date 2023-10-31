@@ -57,6 +57,7 @@ def tsp_fitness(route, distance_matrix):
 def lambda_plus_mu_elimination(population, lambda_offspring, mu_parents, distance_matrix, crossover, mutation, mutation_prob):
     """Apply λ+μ elimination strategy."""
     offspring = []
+    # selection = k_tournament_selection(population, lambda_offspring * 2, 5, distance_matrix)
     
     # Generate λ offspring
     for _ in range(lambda_offspring):
@@ -80,12 +81,13 @@ def lambda_plus_mu_elimination(population, lambda_offspring, mu_parents, distanc
             
         offspring.append(child2)
 
+    for i in range(0, len(population) - 1):
+        if random.random() < mutation_prob:
+            route = mutation(population[i], distance_matrix)
+            population[i] = route
+
     # Combine parents and offspring
     combined_population = population + offspring
-
-    for route in combined_population:
-        if random.random() < mutation_prob:
-            route = mutation(route, distance_matrix)
     
     # Sort by fitness
     sorted_population = sorted(combined_population, key=lambda x: tsp_fitness(x, distance_matrix))
@@ -95,10 +97,10 @@ def lambda_plus_mu_elimination(population, lambda_offspring, mu_parents, distanc
     
     return next_generation
 
-def k_tournament_selection(population, k, tournament_size):
+def k_tournament_selection(population, k, tournament_size, distance_matrix):
     selected = []
     for i in range(k):
         tournament = random.sample(population, tournament_size)
-        winner = max(tournament, key=lambda x: x.fitness)
+        winner = max(tournament, key=lambda x: tsp_length(distance_matrix, x))
         selected.append(winner)
     return selected

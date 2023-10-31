@@ -6,7 +6,7 @@ def order_crossover(parent1, parent2):
     size = len(parent1)
     # Choose random start and end indices for the slice
     start, end = sorted(random.sample(range(size), 2))
-    
+
     # Initialize offspring with 'None' values
     child1 = [None] * size
     child2 = [None] * size
@@ -15,19 +15,18 @@ def order_crossover(parent1, parent2):
     child1[start:end] = parent1[start:end]
     child2[start:end] = parent2[start:end]
 
-    # Fill the remaining positions
-    for i in range(size):
-        if child1[i] is None:
-            for city in parent2:
-                if city not in child1:
-                    child1[i] = city
-                    break
+    # Create sets for quick lookup
+    set1 = set(child1[start:end])
+    set2 = set(child2[start:end])
 
-        if child2[i] is None:
-            for city in parent1:
-                if city not in child2:
-                    child2[i] = city
-                    break
+    # Fill the remaining positions for child1
+    p2_remaining = [item for item in parent2 if item not in set1]
+    p1_remaining = [item for item in parent1 if item not in set2]
+
+    child1[:start] = p2_remaining[:start]
+    child1[end:] = p2_remaining[start:]
+    child2[:start] = p1_remaining[:start]
+    child2[end:] = p1_remaining[start:]
 
     return child1, child2
 
