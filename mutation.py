@@ -2,6 +2,7 @@ import random
 
 from length import tsp_length
 
+#TODO change mutation based on parent length
 # 1. Swap Mutation
 def swap_mutation(route):
     mutated_route = route.copy()
