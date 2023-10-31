@@ -1,7 +1,7 @@
 import Reporter
 import numpy as np
 from length import tsp_length, lambda_plus_mu_elimination
-from crossover import order_crossover, pmx
+from crossover import cycle_crossover, order_crossover, pmx
 from mutation import mutation_interface
 from initialization import random_initialization, nearest_neighbor_initialization, greedy_initialization, random_greedy_initialization
 
@@ -20,8 +20,8 @@ class r0123456:
 
 		permutationSize = len(distanceMatrix[0])
 		populationSize = 100
-		offspringSize = int(0.3*populationSize)
-		iterations = 500
+		offspringSize = int(2.5*populationSize)
+		iterations = 1000
 
 		# Your code here.
 		yourConvergenceTestsHere = True

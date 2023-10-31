@@ -81,13 +81,14 @@ def lambda_plus_mu_elimination(population, lambda_offspring, mu_parents, distanc
             
         offspring.append(child2)
 
-    for i in range(0, len(population) - 1):
-        if random.random() < mutation_prob:
-            route = mutation(population[i], distance_matrix)
-            population[i] = route
+    # for i in range(0, len(population) - 1):
+    #     if random.random() < mutation_prob:
+    #         route = mutation(population[i], distance_matrix)
+    #         population[i] = route
 
     # Combine parents and offspring
-    combined_population = population + offspring
+    # combined_population = population + offspring
+    combined_population = offspring
     
     # Sort by fitness
     sorted_population = sorted(combined_population, key=lambda x: tsp_fitness(x, distance_matrix))
@@ -101,6 +102,6 @@ def k_tournament_selection(population, k, tournament_size, distance_matrix):
     selected = []
     for i in range(k):
         tournament = random.sample(population, tournament_size)
-        winner = max(tournament, key=lambda x: tsp_length(distance_matrix, x))
+        winner = min(tournament, key=lambda x: tsp_length(distance_matrix, x))
         selected.append(winner)
     return selected

@@ -64,6 +64,7 @@ def cycle_crossover(parent1, parent2):
     size = len(parent1)
     used_indices = set()
     cycles = []
+    parent1_to_index = {value: index for index, value in enumerate(parent1)}
 
     while len(used_indices) < size:
         current_index = next(i for i in range(size) if i not in used_indices)
@@ -72,18 +73,20 @@ def cycle_crossover(parent1, parent2):
         while current_index not in used_indices:
             used_indices.add(current_index)
             current_cycle.append(current_index)
-            current_index = parent1.index(parent2[current_index])
+            current_index = parent1_to_index[parent2[current_index]]
 
         cycles.append(current_cycle)
 
     child1, child2 = parent1.copy(), parent2.copy()
     for i in range(len(cycles)):
         if i % 2 == 0:
-            child1[cycles[i]] = parent1[cycles[i]]
-            child2[cycles[i]] = parent2[cycles[i]]
+            for index in cycles[i]:
+                child1[index] = parent1[index]
+                child2[index] = parent2[index]
         else:
-            child1[cycles[i]] = parent2[cycles[i]]
-            child2[cycles[i]] = parent1[cycles[i]]
+            for index in cycles[i]:
+                child1[index] = parent2[index]
+                child2[index] = parent1[index]
 
     return child1, child2
 
