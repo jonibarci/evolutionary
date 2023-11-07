@@ -45,9 +45,9 @@ def displacement_mutation(route):
         mutated_route.insert(insert_position + idx, city)
     return mutated_route
 
-def mutation_interface(route, distanceMatrix):
+def mutation_interface(route, distanceMatrix, mutation):
     length = float('inf')
     while(length == float('inf')):
-        individual = inversion_mutation(route)
+        individual = mutation(route)
         length = tsp_length(distanceMatrix, individual)
     return individual
